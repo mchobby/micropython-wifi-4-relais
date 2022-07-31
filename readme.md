@@ -124,7 +124,5 @@ As a results, it does'nt install the same way neither ;-) .
 * Configure action: Toggle / trap-Timer
 
 # Shopping list
-**TODO**
-
-* Board kits (comming soon)
+* [WiFi-4-Relais kits](https://shop.mchobby.be/product.php?id_product=2473)
 * [Raspberry-Pico W](https://shop.mchobby.be/fr/pico-rp2040/2434-pico-w-wireless-rp2040-2-coeurs-wifi-bluetooth-3232100024342.html).
