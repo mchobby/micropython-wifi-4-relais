@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang=fr>
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>Wifi-4-Relais</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+
+	<body>
+		<h1>WiFi-4-Relais</h1>
+		<h2>Services</h2>
+		<ul><li><a href="/status">WEB control</a></li>
+		<li><a href="/json-state">JSON status</a></li>
+		<li>other...</li>
+		<li><a href="/credit.html">Credits</a></li>
+		</ul>
+		<br />
+		<div style="text-align: center">
+			<p>
+				version: {{ __version__ }} | Client IP: {{  httpClient.GetIPAddr() }}
+			</p>
+		</div>
+	</body>
+
+</html>

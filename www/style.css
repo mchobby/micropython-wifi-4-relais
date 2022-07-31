@@ -1,0 +1,180 @@
+html, body {
+ margin: 0;
+ padding: 0;
+ }
+body {
+ background-color: white;
+ font-family: Verdana, sans-serif;
+ font-size: 100%;
+ }
+h1 {
+ font-size: 200%;
+ color: navy;
+ text-align: center;
+ }
+h2 {
+ font-size: 150%;
+ color: red;
+ padding-left: 15px;
+ }
+p,ul,li,td {
+ color: black;
+ }
+a:link {
+ color: green;
+ text-decoration: underline;
+ }
+a:visited {
+ color: gray;
+ }
+a:hover {
+ color: red;
+ text-decoration: none;
+}
+a:active, a:focus {
+ color: red;
+}
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-1wig{font-weight:bold;text-align:left;vertical-align:top}
+.tg .tg-yofg{background-color:#9aff99;text-align:left;vertical-align:top}
+.tg .tg-b3sw{background-color:#efefef;font-weight:bold;text-align:left;vertical-align:top}
+.tg .tg-og4q{background-color:#fd6864;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+
+/* From uiverse.io by @alexroumi */
+
+button {
+ padding: 15px 25px;
+ border: unset;
+ border-radius: 15px;
+ color: #212121;
+ z-index: 1;
+ background: #e8e8e8;
+ position: relative;
+ font-weight: 1000;
+ font-size: 17px;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms;
+ overflow: hidden;
+}
+
+button::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 0;
+ border-radius: 15px;
+ background-color: #212121;
+ z-index: -1;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms
+}
+
+button:hover {
+ color: #e8e8e8;
+}
+
+button.green::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 0;
+ border-radius: 15px;
+ background-color: #9aff99;
+ z-index: -1;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms
+}
+
+button.red:hover {
+ color: #000000;
+}
+
+button.red::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 0;
+ border-radius: 15px;
+ background-color: #fd6864;
+ z-index: -1;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms
+}
+
+button.green:hover {
+ color: #000000;
+}
+
+button:hover::before {
+ width: 100%;
+}
+
+/* from https://github.com/rkzahidhassandipu/color-effect */
+.loader{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    box-sizing: border-box;
+}
+.loader::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    box-sizing: border-box;
+    border-radius: 50%;
+    animation: loader 1s infinite;
+}
+.loader::after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    box-sizing: border-box;
+    border-radius: 50%;
+    animation: loader 1s infinite;
+    animation-delay: .5s;
+}
+@keyframes loader{
+    0%{
+        width: 0;
+        height: 0;
+        border: 3px solid #00ff10;
+        box-shadow: 0 0 81px #00ff10;
+        opacity: 1;
+    }
+    70%{
+        opacity: 1;
+    }
+    100%{
+        width: 100%;
+        height: 100%;
+        border: 3px solid #00ff10;
+        box-shadow: 0 0 81px #00ff10;
+        opacity: 0;
+    }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang=fr>
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>Wifi-4-Relais</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<script>
+	function send_cmd( what ){
+		document.getElementById("reload_frame").style.display = "block";
+		document.getElementById("status_frame").style.display = "none";
+		document.getElementById("btn_action").value = what;
+		document.getElementById("my_form").submit();
+	}
+	</script>
+	<body>
+		<h1>WiFi-4-Relais</h1>
+		<h2>Status</h2>
+
+		<div id="reload_frame" class="loader" style="display: none">
+		</div>
+		<div id="status_frame">
+			<form id="my_form" action="/status" method="post" accept-charset="ISO-8859-1">
+			<table class="tg">
+				<thead>
+					<tr>
+						<th class="tg-b3sw">Relais</th>
+						<th class="tg-b3sw">Status</th>
+						<th class="tg-b3sw">Switch on</th>
+						<th class="tg-b3sw">Switch off</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{ for index_entry in index_entries }}
+						<tr>
+							{{ py }}
+								_idx = index_entry[0]+1
+								_name = "Relay %s" % (_idx)
+								if index_entry[1][1].value()==1:
+									_status_name = "ON"
+									_status_class = "tg-yofg"
+								else:
+									_status_name = "off"
+									_status_class = "tg-og4q"
+
+							{{ end }}
+								<td class="tg-0lax">{{ _name }}</td>
+								<td class="{{ _status_class }}">{{ _status_name }}<br></td>
+								<td class="tg-0lax"><button class="green" onclick="send_cmd('ON{{ _idx }}')">ON</button></td>
+								<td class="tg-0lax"><button class="red" onclick="send_cmd('OFF{{ _idx }}')">OFF</button></td>
+						</tr>
+					{{ end }}
+				</tbody>
+			</table>
+			<input type="hidden" id="btn_action" name="btn_action" value="">
+			<button onclick="send_cmd('ALL_OFF')">All OFF</button>
+			<button onclick="document.getElementById('my_form').submit()">Refresh</button>
+			</form>
+		</div>
+
+		<div style="text-align: center">
+			<p>
+				version: {{ __version__ }} | Client IP: {{ httpClient.GetIPAddr() }}
+			</p>
+		</div>
+	</body>
+
+</html>
