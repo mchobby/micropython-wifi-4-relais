@@ -1,4 +1,4 @@
-# wifi-4-relais
+# wifi-4-relais - 4 Relay Modules + Raspberry-Pi Pico to build WiFi IoT device
 
 This project associate a [4 relay board]() (opto-isolated) with a [Raspberry-Pico W](https://shop.mchobby.be/fr/pico-rp2040/2434-pico-w-wireless-rp2040-2-coeurs-wifi-bluetooth-3232100024342.html). Suprisingly, this setup offers a lot of possibilities.
 
@@ -18,9 +18,13 @@ Project features:
 * [UEXT connector](https://shop.mchobby.be/fr/138-uext): I2C/SPI/UART/3V extension port. Strong & reliable 2.54mm 10 Pins IDC connector to expand your project.
 
 Limitations:
-* Working with HTTP only (not HTTPS support yet)
+* __Working with HTTP only__ (not HTTPS support yet)
 * WebServer response may takes severals seconds (be patient, it is a microcontroler)
 * Requires to connect the Pico to setup Wifi configuration.
+
+# Revision
+* 0.0.3 : aug 4, 2022 - REST API implemented
+* 0.0.2 : aug 1, 2022 - HTML Service implemented
 
 # Discovering
 When starting the project show various information on the USB/Serial line. While Running, the project also shows state change.
@@ -42,7 +46,7 @@ Action ON2
 
 Browsing the `http://<IP-of-Board>` will show the welcome page with the various options.
 
-** TODO ** add a capture
+![Index page](docs/_static/html-index.jpg)
 
 from there, user can browse the various entries and discover the possibilities.
 
@@ -61,9 +65,35 @@ Animation would avoids multiple calls to the WebServer while it process the curr
 
 ## REST API
 
+The REST api is suited to interact with the project as a remote object.
+
 ![REST API MODEL](docs/_static/rest-api.jpg)
 
-**TODO**
+Here follows the available URL for the REST API.
+
+| URI                         | Description                                              |
+|-----------------------------|----------------------------------------------------------|
+| /api/status                 | Status for all relays returned as JSON structure.        |
+| /api/status/<#relay>        | JSON status for a #relay (1..N)                          |
+| /api/relay/<#relay>/<value> | Change state of the #relay (1..N) to value (1=on, 0=off) |
+| /api/relay/all/<value>      | Change state of all the relais to value (1=on, 0=off     |
+
+The following example collects the status of all the relays. The dictionnary contains the identification of the relay (#relay) and its current status (1:on, 0:off).
+
+![REST API Relay status](docs/_static/rest-status.jpg)
+
+Which correspond to the following JSON data:
+
+`{"1": 0, "4": 0, "3": 0, "2": 1}`
+
+For a single relay request, the dictionnary will be reduced to a single entry.
+
+![REST API Relay status](docs/_static/rest-status-single.jpg)
+
+with the following JSON data (the relay 2 is ON):
+
+`{"2": 1}`
+
 
 ## MQTT Implementation
 
@@ -107,13 +137,10 @@ MQTT is not working the same as a WebServer. So it not build on a top of a WebSe
 
 As a results, it does'nt install the same way neither ;-) .
 
-
 **TODO**
 
 # TODO list
 * Breakout the user buttons
-* REST API
-* JSON API
 * Pico LED = Wifi status
 * WiFi Station setup configured via Access Point
 * Name the board (and store it)
@@ -121,7 +148,11 @@ As a results, it does'nt install the same way neither ;-) .
 * MQTT support
 * SSL support
 * User auth
-* Configure action: Toggle / trap-Timer
+* Configure relay action: Toggle / trap-Timer
+
+# Ressources
+* [MicroWebSrv](https://github.com/jczic/MicroWebSrv) - Micro Web Server for MicroPython
+* [microdot](https://github.com/miguelgrinberg/microdot) - minimalistic web framework for microcontroler (MicroPython) inspired by Flask (also use AsyncIO)
 
 # Shopping list
 * [WiFi-4-Relais kits](https://shop.mchobby.be/product.php?id_product=2473)

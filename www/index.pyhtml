@@ -10,13 +10,20 @@
 
 	<body>
 		<h1>WiFi-4-Relais</h1>
-		<h2>Services</h2>
-		<ul><li><a href="/status">WEB control</a></li>
-		<li><a href="/json-state">JSON status</a></li>
-		<li>other...</li>
+		<h2>HTML service</h2>
+		<ul><li><a href="/">/</a> : This index WEB page.</li>
+		<li><a href="/status">/status</a> : WEB control.</li>
 		<li><a href="/credit.html">Credits</a></li>
 		</ul>
-		<br />
+		<h2>REST api</h2>
+		<ul><li><a href="/api/status">/api/status</a> : JSON status for all relays</li>
+		<li><a href="/api/status/1">/api/status/&lt;#relay&gt;</a> : JSON status for a #relay (1..N)</li>
+		<li><a href="/api/relay/3/1">/api/relay/&lt;#relay&gt/&lt;value&gt;</a> : Change state of the #relay (1..N) to value (1=on, 0=off)</li>
+		<li><a href="/api/relay/all/1">/api/relay/all/&lt;value&gt;</a> : Change state of all the relais to value (1=on, 0=off)</li>
+	  </ul>
+		<h2>MQTT service</h2>
+		<ul><li>to do...</li></ul>
+
 		<div style="text-align: center">
 			<p>
 				version: {{ __version__ }} | Client IP: {{  httpClient.GetIPAddr() }}

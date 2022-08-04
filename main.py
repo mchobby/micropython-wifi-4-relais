@@ -1,7 +1,7 @@
 from machine import Pin
 from time import ticks_ms, ticks_diff
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 # Pinout declaration for buttons & Relais
 INPUTS = (18,19,20,21)
@@ -74,6 +74,65 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}) :
 	index_entries = list(enumerate( btn_relais )) # create a zip of (index, [btn, relay, ticks_ms()] )
 	httpResponse.WriteResponsePyHTMLFile('www/status.pyhtml', headers=({'Cache-Control': 'no-cache'}),
 			vars={'__version__':__version__, 'httpClient':httpClient, 'index_entries':index_entries} )
+
+@MicroWebSrv.route('/api/status')
+@MicroWebSrv.route('/api/status/<relay>')
+def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}) :
+	global btn_relais
+
+	relais = {}
+	if 'relay' in args:
+		try:
+			idx = int( args['relay'] )
+		except:
+			idx = -1
+		if 1<=idx<=4:
+			relais[ str(idx) ] = btn_relais[idx-1][1].value()
+		else:
+			return httpResponse.WriteResponseJSONError( 400, "400: invalid #relay" )
+	else:
+		# all the relay
+		for i in range( 4 ):
+			relais[ str(i+1) ]= btn_relais[i][1].value()
+	# btn_relais[i][1].on()
+	#	if (btn_action == 'OFF%i'%(i+1)) or (btn_action == 'ALL_OFF'):
+	httpResponse.WriteResponseJSONOk( obj=relais, headers=({'Cache-Control': 'no-cache'}) )
+
+@MicroWebSrv.route('/api/relay/all/<value>')
+def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}) :
+	global btn_relais
+
+	try:
+		val = int( args['value'] )
+	except:
+		val = -1
+	if not( 0<=val<=1 ):
+		return httpResponse.WriteResponseJSONError( 400, "400: invalid value" )
+
+	for i in range(4):
+		btn_relais[i][1].value( val )
+	httpResponse.WriteResponseJSONOk( obj=1, headers=({'Cache-Control': 'no-cache'}) )
+
+@MicroWebSrv.route('/api/relay/<index>/<value>')
+def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}) :
+	global btn_relais
+
+	try:
+		idx = int( args['index'] )
+	except:
+		idx = -1
+	if not( 1<=idx<=4 ):
+		return httpResponse.WriteResponseJSONError( 400, "400: invalid #relay" )
+	try:
+		val = int( args['value'] )
+	except:
+		val = -1
+	if not( 0<=val<=1 ):
+		return httpResponse.WriteResponseJSONError( 400, "400: invalid value" )
+
+	btn_relais[idx-1][1].value( val )
+	httpResponse.WriteResponseJSONOk( obj=1, headers=({'Cache-Control': 'no-cache'}) )
+
 
 
 # ----------------------------------------------------------------------------
