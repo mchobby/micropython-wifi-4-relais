@@ -1,12 +1,39 @@
-from wifi_cfg import *
+import os
+import time
+from machine import Pin
+from rp2 import country
+country( 'FR' )
+
+def file_exists( name ):
+  try:
+    os.stat( name )
+    return True
+  except:
+    return False
+
+# Do we start without config ?
+wifi_mode = None
+if file_exists( "wifi_cfg.py" ):
+    import wifi_cfg
+    if ('WIFI_MODE' in dir( wifi_cfg )) and (wifi_cfg.WIFI_MODE!=None):
+      wifi_mode = wifi_cfg.WIFI_MODE.strip().upper()
+      if wifi_mode == "NONE": # Cover string use-case
+        wifi_mode = None
+
+__version__ = '0.0.5'
+
 
 def sta_connect():
+    """ Connect as station to an existing WiFi network """
     import network
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     if not wlan.isconnected():
+        # is static_ip defined?
+        if ('STATIC_IP' in dir( wifi_cfg )) and (wifi_cfg.STATIC_IP!=None):
+            wlan.config( wifi_cfg.STATIC_IP)
         # connecting to network...
-        wlan.connect( WIFI_SSID, WIFI_PASSWORD )
+        wlan.connect( wifi_cfg.WIFI_SSID, wifi_cfg.WIFI_PASSWORD )
 
         import time
         ctime = time.time()
@@ -15,8 +42,66 @@ def sta_connect():
                 print( 'WLAN timeout!')
                 break
             time.sleep( 0.5 )
+        return wlan.isconnected()
 
-sta_connect()
+def ap_connect():
+    """ Start Wifi Interface as Access Point """
+    import network
+    ap = network.WLAN(network.AP_IF)
+    ap.config( essid=wifi_cfg.AP_SSID, password=wifi_cfg.AP_PASSWORD )
+    ap.active(True)
+    return True
+
+_led = Pin("LED", Pin.OUT ) # User led
+def led( state=False, error=None ):
+    """ set the LED state or blink an error code (repeated 3 times) """
+    global _led
+    if error != None: # blink an error code (repeat 3 times)
+        _led.value( False )
+        for i in range(3):
+            for i in range(20):
+                _led.toggle()
+                time.sleep_ms( 50 )
+            _led.value( False )
+            time.sleep(1)
+            for i in range(error):
+                _led.value(True)
+                time.sleep(0.5)
+                _led.value(False)
+                time.sleep(0.5)
+            time.sleep(1)
+    else:
+        _led.value( state )
+
+# Override startup config
+in4 = Pin(21,Pin.IN,Pin.PULL_UP).value()==0
+in3 = Pin(20,Pin.IN,Pin.PULL_UP).value()==0
+in2 = Pin(19,Pin.IN,Pin.PULL_UP).value()==0
+if in4: # IF IN4 pressed THEN force None
+  wifi_mode = None
+if in3:
+  wifi_mode = "AP"
+if in2:
+  wifi_mode = "STA"
+
+# Blink LED to signal startup
+led(state=1)
+time.sleep_ms(100)
+print( "WiFi_Mode = %s" % (wifi_mode) )
+led(state=0)
+
+# IF we have config file THEN connect WiFi Network
+# ELSE create an access point
+if wifi_mode=="STA":
+    _connected = sta_connect()
+    led( state=_connected )
+    if not(_connected):
+      led( error=1 )
+elif wifi_mode=="AP":
+    ap_connect()
+    led( state=True )
+else:
+    led( state=False )
 
 import gc
 #import webrepl

@@ -1,7 +1,7 @@
 from machine import Pin
 from time import ticks_ms, ticks_diff
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 # Pinout declaration for buttons & Relais
 INPUTS = (18,19,20,21)
@@ -21,7 +21,18 @@ def btn_pressed( btn_pin ):
 				entry[2] = ticks_ms()
 				return
 
-print( "Version: %s" % __version__ )
+print( "Starting main.py" )
+print( "version: %s" % __version__ )
+if ('wifi_mode' in dir()):
+	if wifi_mode == None:
+		print("wifi_mode: %s. Exiting main!" % wifi_mode )
+		import sys
+		sys.exit(0)
+else:
+	print("wifi_mode not declared in boot.py. Exiting main!" )
+	import sys
+	sys.exit()
+
 
 print( "Initializing hardware!")
 # Create ressources & attach handler
@@ -31,7 +42,7 @@ for i,o in zip(INPUTS,OUTPUTS):
 	relay = Pin( o, Pin.OUT, value=0)
 	btn_relais.append( [btn, relay, ticks_ms()] )
 
-print( "Network config" )
+print( "Current Network config" )
 import network
 sta = network.WLAN( network.STA_IF )
 if sta.active():

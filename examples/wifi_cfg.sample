@@ -1,2 +1,17 @@
+# WiFi mode:
+# ----------
+#   None = No Wifi Activation,
+#   "AP" = Access-Point,
+#   "STA" = Station
+WIFI_MODE = "AP"
+
+# -- station config --
 WIFI_SSID = "MY_WIFI_SSID"
 WIFI_PASSWORD = "MY_PASSWORD"
+# Uncomment to define static IP (instead of DHCP) for Station mode
+# tuple is defined with (Static_IP, Network_mask, gateway, dns_server)
+#STATIC_IP = ('192.168.1.200','255.255.255.0','192.168.1.1','192.168.1.1')
+
+# -- Access Point config --
+AP_SSID = "wifi4relay"
+AP_PASSWORD = "wifi4relay103"
