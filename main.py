@@ -1,7 +1,7 @@
 from machine import Pin
 from time import ticks_ms, ticks_diff
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 
 # Pinout declaration for buttons & Relais
 INPUTS = (18,19,20,21)

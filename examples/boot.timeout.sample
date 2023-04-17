@@ -1,6 +1,6 @@
 import os
 import time
-from machine import Pin
+from machine import Pin, UART
 from rp2 import country
 country( 'FR' )
 
@@ -73,7 +73,15 @@ def led( state=False, error=None ):
     else:
         _led.value( state )
 
-# Override startup config
+# Duplicate REPL over UART(0) @ 115200 - gp0 & gp1
+dup_repl = Pin(18,Pin.IN,Pin.PULL_UP).value()==0 # IN 1
+if dup_repl:
+  print( "DupTerm")
+  ser = UART( 0, 115200 )
+  from os import dupterm
+  dupterm( ser )
+
+# Override startup config & REPL
 in4 = Pin(21,Pin.IN,Pin.PULL_UP).value()==0
 in3 = Pin(20,Pin.IN,Pin.PULL_UP).value()==0
 in2 = Pin(19,Pin.IN,Pin.PULL_UP).value()==0

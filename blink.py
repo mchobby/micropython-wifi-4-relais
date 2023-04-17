@@ -1,3 +1,6 @@
+#
+# Just blink the Pico LED (used by the installer)
+#
 from machine import Pin
 import time
 led = Pin( "LED", Pin.OUT )

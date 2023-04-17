@@ -1,64 +1,77 @@
-# wifi-4-relais - 4 Relay Modules + Raspberry-Pi Pico to build WiFi IoT device
+This file also [exists in English](readme_ENG.md)
 
-This project associate a [4 relay board]() (opto-isolated) with a [Raspberry-Pico W](https://shop.mchobby.be/fr/pico-rp2040/2434-pico-w-wireless-rp2040-2-coeurs-wifi-bluetooth-3232100024342.html). Suprisingly, this setup offers a lot of possibilities.
+# wifi-4-relais - Module 4 Relais + Raspberry-Pi Pico pour realiser des objets IoT
 
-![Wifi-4-Ralais assemblé](docs/_static/wifi-4-relais.jpg)
+Bienvenu dans ce nouveau projet éducatif de [MCHobby](https://shop.mchobby.be).
 
-Project features:
-* Powered with [Raspberry-Pi Pico W](https://shop.mchobby.be/fr/pico-rp2040/2434-pico-w-wireless-rp2040-2-coeurs-wifi-bluetooth-3232100024342.html)
-* __[MicroPython](http://www.micropython.org/)__ & Open-Source: modify the code to suit your needs.
-* Adaptater board: quick setup of the projet. Just solder the Pico on the adapter and the solder/wire adapter onto the relay board.
-* Local control: the 4 user buttons can be used for direct control over the relay (or what ever you need). Multiple relay changes requires a 250ms delay between them!
-* Integrated WebServer: small a light WebServer to remote control
- * HTML server to control the relay
- * REST API to control the relais allowing to get the JSON Status of relay and update them.
-* Reset button: Qwick and convenient restart/reboot button
-* 5V Power: micro-USB or external terminal
-* Qwiic/StemmaQT I2C connector : expand your setup with sensor with Sparkfun & Adafruit sensors
-* [UEXT connector](https://shop.mchobby.be/fr/138-uext): I2C/SPI/UART/3V extension port. Strong & reliable 2.54mm 10 Pins IDC connector to expand your project.
+Le projet WiFi-4-relais associe une [carte 4 relais opto-isolée](https://shop.mchobby.be/fr/relais-modules/632-module-quatre-relais-3232100006324.html) avec un [Raspberry-Pico W](https://shop.mchobby.be/fr/pico-rp2040/2434-pico-w-wireless-rp2040-2-coeurs-wifi-bluetooth-3232100024342.html).
 
-Limitations:
-* __Working with HTTP only__ (not HTTPS support yet)
-* WebServer response may takes severals seconds (be patient, it is a microcontroler)
-* Requires to connect the Pico to setup Wifi configuration.
+![Wifi-4-Relais assemblé](docs/_static/wifi-4-relais.jpg)
 
-# Revision
-* 0.0.4 : feb 23, 2023 - Wifi configuration mode None, "AP", "STA". Override at startup with IN2, IN3, IN4.
-* 0.0.3 : aug 4, 2022 - REST API implemented
-* 0.0.2 : aug 1, 2022 - HTML Service implemented
+De façon surprenante, cette configuration offre de nombreuses possibilités pour les Makers désirant créer des projets personnalisés (sans se prendre la tête sur la sélection  matérielle). Cette configuration permet de créer des projets _push-push change-over_ (pousser une fois pour activer, pousser une autre fois pour désactiver), activation minutées, un marche/arrêt par horodateur, ajouter des capteurs pour contrôler la température ou l'humidité, etc).
 
-# Discovering
+![Raspberry-Pi Pico et Pico W](docs/_static/livre-eni-pico-picow.jpg)
 
-## Web Browser
-When staring the project, it is configured to starts as an Access Point. So you need to connect your SmartPhone or your computer on the "__wifi4relay__" network created by the Pico Wireless.
+Si vous ne connaissez pas encore le Raspberry-Pi Pico sous MicroPython, je vous suggère la lecture de l'ouvrage "[Raspberry-Pi Pico & Pico W - la programmation Python sur microcontrôleur avec MicroPython](https://www.editions-eni.fr/livre/raspberry-pi-pico-et-pico-w-la-programmation-python-sur-microcontroleur-avec-micropython-9782409038754)" paru aux éditions ENI.
 
-![Connect wifi network](docs/_static/disc_ap_connect00.jpg)
+## Fonctionnalités du projet:
+* Mise sous tension avec [Raspberry-Pi Pico W](https://shop.mchobby.be/fr/pico-rp2040/2434-pico-w-wireless-rp2040-2-coeurs-wifi-bluetooth-3232100024342.html)
+* __[MicroPython](http://www.micropython.org/)__ et Open-Source: modifiez le code en fonction de vos besoins.
+* Carte contrôleur: mise en oeuvre rapide du projet. Selon vos besoins et encombrement...<br />Branchez la carte contrôleur:
+ * directement sur la carte relais
+ * à l'aide d'une nappe de fils sur la carte relais
+* Contôle local: Les 4 boutons utilisateurs peuvent être utilisés pour contrôler directement les relais (ou autres tâche souhaitée). De multiples changement d'état d'un même relais ne peut se faire à moins de 250ms (1/4 de seconde)!
+* Serveur WEB intégré: un petit serveur web est intégré au projet pour expérimenter le contrôle à distance
+ * Serveur HTML pour contrôler les relais
+ * API REST pour contrôler les relais et obtenir/modifier leur statut avec un contenu JSON.
+* Bouton Reset: Un bouton bien pratique pour redémarrer un projet (ou téléverser votre propre firmware).
+* Alimentation: vie micro-USB ou bornier/
+* Connecteur I2C Qwiic/StemmaQT: ajoutez facilement des capteurs sur projet avec les propduit Qwiic fr Sparkfun ou StemmaQT Adafruit sensors
+* [Connecteur UEXT](https://shop.mchobby.be/fr/138-uext): port d'extension I2C/SPI/UART/3V. Solide et fiable, ce connecteur IDC 10 broches (empattement 2.54mm) est idéal pour créer vos extensions ou utiliser les modules _industrial grade_ produits par Olimex Ltd.
 
-Then key-in the default WiFi password "__wifi4relay103__".
+## Limitations:
+* __Ne fonctionne qu'en HTTP uniquement__ (pas de support HTTPS)
+* Les réponses du WebServer peuvent prendre plusieurs secondes (soyez patient, c'est un microcontrôleur)
+* Nécessite de se connecter sur le Pico pour effectuer la configuration WiFi.
 
-![Connect wifi network](docs/_static/disc_ap_connect01.jpg)
+## Révision
+* 0.0.5 : apr 12, 2023 - activation de DupTerm sur UART(0) lorsque IN1 est pressé durant le démarrage.
+* 0.0.4 : feb 23, 2023 - Configuration du Mode WiFi sur None, "AP", "STA". Surcharge/modifiabe au démarrage avec IN2, IN3, IN4.
+* 0.0.3 : aug 4, 2022 - implémentation de l'API REST
+* 0.0.2 : aug 1, 2022 - implémentation du Service HTML
 
-By using an internet browser, you can access the Web App on the Pico Wireless through the IP Address __192.168.4.1__ .
+# Découvrir
 
-![Connect Wep App](docs/_static/disc_ap_webapp00.jpg)
+## Navigateur Internet
+Lorsque le projet démarre, il est configuré pour démarrer comme point d'accès (il crée son propre réseau WiFi). Vous aurez bespo, de connecter votre SmartPhone ou votre ordinateur sur le réseau "__wifi4relay__" créé par le Pico Wireless.
 
-Once connected, you will see the Web App index page.
+![Connection sur le réseau wifi](docs/_static/disc_ap_connect00.jpg)
 
-![Connect Web App index page](docs/_static/disc_ap_webapp01.jpg)
+Ensuite saisir le mot de passe par défaut pour ce WiFi "__w4r294arrow__".
 
-From the index page click on the "__/status__" link which display the Web control for the page.
+![Connecter le réseau wifi](docs/_static/disc_ap_connect01.jpg)
+
+En utilisant votre bavigateur internet, vous pouvez naviguer débuter une navigation sur l'adresse IP __http://192.168.4.1__ .
+
+![Connection sur la Wep App](docs/_static/disc_ap_webapp00.jpg)
+
+Une fois connecté, vous verrez apparaître la page d'accueil de l'application (index).
+
+![Connection sur la page d'accueil Web (index)](docs/_static/disc_ap_webapp01.jpg)
+
+Sur la page d'accueil, cliquer sur le lien "__/status__" qui affiche la page de contrôle WEB.
 
 ![Connect Web App control](docs/_static/disc_ap_webapp_control00.jpg)
 
 ![Connect Web App control](docs/_static/disc_ap_webapp_control01.jpg)
 
-## REPL session (via USB-Serial)
+## Session REPL (via USB-Serie)
 
-When starting the project it show various information on the USB/Serial line. While running the Web Server, the project also shows state changes.
+Lorsque le projet démarre, il affiche différentes information sur la ligne USB/Série. Pendant le fonctionnement du serveur WEB, celui-ci affiche également les changements d'états des relais.
 
-You can catch them with ThonnyIDE, Putty, MPRemote, RShell. When USB/Serial connexion is established press CTRL+C (to stop current microPython script) followed by CTRM+D (Warm reboot). This restart the Pico Wireless without closing the USB-Serial connection.
+Vous pouvez capturer ces messages à l'aide de ThonnyIDE, Putty, MPRemote, RShell. Avec la connexion USB/Série établie pressez CTRL+C (pour arrêter le script MicroPython et voir l'invite de commande >>> ) puis pressez CTRL+D (Reboot à chaud). Cela permet de redémarrer le Pico Wireless sans réinitialiser la connexion série via USB.
 
-Here follows what's displayed over the USB/Serial connexion.
+Voici un exemple de ce qui peut être vu sur la connexion USB/Série connexion.
 
 ```
 MicroPython v1.19.1 on 2022-09-13; Raspberry Pi Pico W with RP2040
@@ -78,57 +91,22 @@ Action ALL_OFF
 Action ON2
 ```
 
-Such information could be very valuable in case of troubleshooting.
+Ces informations peuvent être très utiles lors d'une recherche d'anomalie.
 
-# Startup and configuration
-The configuration is contained into the Python file named  `wifi_cfg.py`.
+# Démarrage et configuration
 
-The key item of the configuration is the `WIFI_MODE` which indicates if the wifi is:
-* inactivated (None).
-* configured as Access Point ("AP") to create its own WiFi network.
-* configured as Station ("STA") to connect an existing WiFi network.
+Le configuration est stockée dans le fichier `wifi_cfg.py` (contenu auto-descriptif).
 
-## Startup in details
+L'élément clé de cette configuration est le `WIFI_MODE` qui stipule comment le module WiFi doit être configuré:
+* Inactif (None).
+* Configuré en point d'accès ("AP") pour créer son propre réseau WiFi.
+* Configuré en mode Station ("STA") pour se connecter sur un réseau WiFi existant.
 
-At startup the Pico does executes the `boot.py` file which manage the WiFi setup.
-* It tries to load the `wifi_cfg.py`. If it can't `WIFI_MODE` is `None`. Otherwise the `WIFI_MODE` comes from the `wifi_cfg.py` file.
-* it check if one of  IN2, IN3, IN4 is pressed down. If so, the mode switched to another value
- * IN2 : force the mode to "STA"
- * IN3 : force the mode to "AP"
- * IN4 : force the mode to None
-* Blink __once__the Pico LED for 100ms
-* Start the WiFi module accordingly to `WIFI_MODE`
- * If `WIFI_MODE` = "STA" then it use the `WIFI_xxx` & `STATIC_IP` configuration connect to an existing WiFi network (execute `sta_connect()`). The connection timeout is 40 seconds.
- * if `WIFI_MODE` = "AP" then it use the `AP_xxx` configuration to create its own WiFI network on 192.168.4.1
-* The Pico Wireless LED light up  __only when__ the WiFi network is bring up.
-* Show error blinking pattern (if any error).<br />Flashing followed by a code (slow count of blink). The pattern is repeated 3 times
- * 1 blink : Station connect error/timeout.
-* Exits the `boot.py`
+Le projet est configuré par défaut en Point d'Accès (`"AP"`) comme indiqué dans le paramètre `WIFI_MODE`.
 
-When `boot.py` terminates, MicroPython does start the `main.py` script.
+Le `WIFI_MODE` peut être surchargé en pressant l'un des bouton de la carte contrôleur durant le démarrage (voir "Démarrage en détail"). Cette approche est pratique pour tester la configuration du mode Station ("STA") au boot sans modifier immédiatement la valeur de `WIFI_MODE`.
 
-The `main.py` script is responsible of the WebServer implementation.
-* if the WiFi mode is not "AP" or "STA" then the `main.py` stops its execution with `sys.exit()`
-* If the WebServer is running then it can be stopped with a CTRL+C (in REPL)
-
-## Override startup mode
-
-It is possible to MANUALLY force `WIFI_MODE` at boot. This mode will remain active until the next reboot.
-
-![Override mode](docs/_static/override-mode.jpg)
-
-In `None` is selected, boot sequence is skipped and the WebServer is not started. As results, the MicroPython REPL is freely available over the USB-Serial.
-
-
-## Wifi Configuration file
-
-The configuration is descrived in the file `wifi_cfg.py` .
-
-The default configuration is the Access Point (`"AP"`) as stated by the parameter `WIFI_MODE`.
-
-This can be override at startup by pressing one of the input buttons at startup (see "Startup in details"). This is convenient to test the Station ("STA") configuration before applying it.
-
-The file content is self explainatory. Please note that Station mode (connecting to an existing WiFi network) can also get a Static IP address (instead of DHCP) if `STATIC_IP` is made available.
+Le contenu du fichier est auto-descriptif. A noter que le mode Station (utilisé pour se connecter sur un WiFi existant) peut aussi accepter une adress IP statique (à la place de dynamique avec DHCP) si la ligne `STATIC_IP` est rendue active en enlevant le caractère # en début de ligne.
 
 ```
 # WiFi mode:
@@ -147,136 +125,184 @@ WIFI_PASSWORD = "MY_PASSWORD"
 
 # -- Access Point config --
 AP_SSID = "wifi4relay"
-AP_PASSWORD = "wifi4relay103"
+AP_PASSWORD = "w4r294arrow"
 ```
 
-In case of configuration trouble, the initial files `wifi_cfg.py` and `boot.py` can still be restored from the GitHub sources.
+En cas de problème de configuration, il est possible de récupérer les fichiers `wifi_cfg.py` et `boot.py` initiaux peuvent être restaurés depuis les sources GitHub.
 
-WiFi must be setup manually by editing & copying the `wifi_cfg.py` file to your board.
+Le fichier `wifi_cfg.py` doit être modifié et copié sur votre carte.
 
-1. open the [examples/wifi_cfg.sample](examples/wifi_cfg.sample) file and set `WIFI_SSID` (WiFi network name) and `WIFI_PASSWORD` constants (for Station connexion). Double-check it!
-2. Rename the [examples/wifi_cfg.sample](examples/wifi_cfg.sample) as `wifi_cfg.py`
-3. Copy the `wifi_cfg.py` to your board.
-4. Rename the [examples/boot.timeout.sample](examples/boot.timeout.sample) as `boot.py`. This boot file connects the WiFi Network and waits up to 40 seconds for the connection to be established.
-5. Copy the `boot.py` to your board.
+1. Ouvrir le fichier [examples/wifi_cfg.sample](examples/wifi_cfg.sample) et fixer les valeurs des constantes `WIFI_SSID` (nom du réseau) et `WIFI_PASSWORD` pour la connexion en mode Station. Vérifiez deux fois!
+2. Renommez le [examples/wifi_cfg.sample](examples/wifi_cfg.sample) sous `wifi_cfg.py`
+3. Copiez `wifi_cfg.py` sur votre carte.
+4. Renomez le fichier [examples/boot.timeout.sample](examples/boot.timeout.sample) sous `boot.py`. Ce fichier établit la connexion WiFi (avec un timeout de 40 secondes).
+5. Copiez le fichier `boot.py` sur votre carte.
 
-__Remark:__
-* If the WiFi Station configuration is wrong (bad SSID or bad Password) then the `boot.py` will lock the board at startup for 40 seconds max.<br />After 40 seconds, the `boot.py` exits with blinking error code then switch to `main.py`.
+__Remarque:__
+* Si la configuration en mode station est incorrecte (mauvais SSID ou mauvais mot-de-passe) alors le fichier `boot.py` bloquera le démarrage pendant 40 secondes max (timeout de connexion).<br />Après 40 secondes, `boot.py` interrompt son exécution en faisant clignoter la LED (code d'erreur) puis passe à l'exécution de `main.py`.
 
-# Network Client (Station mode)
-When `wifi_mode` is configured as `"STA"` the Pico Wireless will connect an existing WiFi network as any computer does. As such the Pico Wireless will get a dynamic IP address DHCP (that you must identify) or can be configured with a fixed Static IP (more easy to remember)
-
-Browsing the `http://<IP-of-Board>` will show the welcome page with the various options.
-
-![Index page](docs/_static/html-index.jpg)
-
-from there, user can browse the various entries and discover the possibilities.
-
-# Technical details
-
-## Web App Workflow
-Browsing the `http://<IP-of-Board>/status` will show the relays status and allow the user to change the state of each relay.
-
-![html interface](docs/_static/html-interface.jpg)
-
-The buttons ON/OFF are always available as the relay state can also be changed with the user button on the board.
-
-When pressing a button, the command is sent to the WebServer which generates a new status page. A small CSS animation is displayed while while the WebServer is processing the command.
-
-![html interface](docs/_static/html-animation.jpg)
-
-Animation would avoids multiple calls to the WebServer while it process the current user request.
-
-## REST API
-
-The REST api is suited to interact with the project as a remote object.
-
-![REST API MODEL](docs/_static/rest-api.jpg)
-
-Here follows the available URL for the REST API.
-
-| URI                         | Description                                              |
-|-----------------------------|----------------------------------------------------------|
-| /api/status                 | Status for all relays returned as JSON structure.        |
-| /api/status/<#relay>        | JSON status for a #relay (1..N)                          |
-| /api/relay/<#relay>/<value> | Change state of the #relay (1..N) to value (1=on, 0=off) |
-| /api/relay/all/<value>      | Change state of all the relais to value (1=on, 0=off     |
-
-The following example collects the status of all the relays. The dictionnary contains the identification of the relay (#relay) and its current status (1:on, 0:off).
-
-![REST API Relay status](docs/_static/rest-status.jpg)
-
-Which correspond to the following JSON data:
-
-`{"1": 0, "4": 0, "3": 0, "2": 1}`
-
-For a single relay request, the dictionnary will be reduced to a single entry.
-
-![REST API Relay status](docs/_static/rest-status-single.jpg)
-
-with the following JSON data (the relay 2 is ON):
-
-`{"2": 1}`
-
-
-## MQTT Implementation
-
-**Not done yet**
-
-# How to install
-
-## WiFi connexion
-
-The initial implementation <= 0.0.2 does not setup WEB based configuration. WiFi must be setup manually by editing & copying files to your board.
-
-1. open the [examples/wifi_cfg.sample](examples/wifi_cfg.sample) file and `WIFI_SSID` (WiFi network name) and `WIFI_PASSWORD` constants. Double-check it!
-2. Rename the [examples/wifi_cfg.sample](examples/wifi_cfg.sample) as `wifi_cfg.py`
-3. Copy the `wifi_cfg.py` to your board.
-4. Rename the [examples/boot.timeout.sample](examples/boot.timeout.sample) as `boot.py`. This boot file connects the WiFi Network and waits up to 40 seconds for the connection to be established.
-5. Copy the `boot.py` to your board.
-
-__Remark:__
-If the WiFi configuration is wrong (bad SSID or bad Password) then the `boot.py` will lock the board starup at most for 40 seconds. After 40 seconds, you will get back the hand over the REPL (running over the USB-Serial line).
-
-You can then drop the boot file from REPL with the following REL commands:
+Vous pouvez effacer le fichier boot depuis une session REPL à l'aide des commandes suivantes:
 ```
 >>> import os
 >>> os.remove("boot.py")
 ```
 
-Restart again the configuration.
+Puis recommencer la configuration.
 
-## WEB based (HTML, JSON, REST)
-The installation is quite simple.
-1. Create a `lib` on your board.
-2. Copy the `lib/*.py` on the `lib` folder of the board.
-3. Create a `www` folder on the board.
-4. Copy the `www/*.*` files on the `www` folder on the board.
-5. Copy the `main.py` file to the board. `main.py` will be automatically executed at next power cycle.
+## Démarrage en détails
 
-Remark: if you want a better control during the testing phase, you can rename the file `main.py` to `test.py` while copying to the board. Then the WebServer can be started on demand from REPL by entering the commant `import test`
+Au démarrage, le Pico exécute le fichier `boot.py` qui gère la configuration WiFi.
+* Il essaye de charger `wifi_cfg.py`. Si le fichier est inexistant alors le `WIFI_MODE` est `None`. Sinon le `WIFI_MODE` provient du fichier `wifi_cfg.py`.
+* Vérifie si le bouton IN1 est pressé. Si c'est le cas, alors le terminal REPL est dupliqué sur UART(0) avec GP0=tx, GP1=rx  @ 115200 bauds.
+* Ensuite il vérifie si IN2, IN3 ou IN4 est pressé. Le `WIFI_MODE` est modifié si l'un des boutons est pressé
+ * IN2 : force le mode à "STA"
+ * IN3 : force le mode à "AP"
+ * IN4 : force le mode à None
+* Allumer la LED du Pico __une fois__ pendant 100ms
+* Démarrer le module WiFi en fonction du mode `WIFI_MODE`
+ * SI `WIFI_MODE` = "STA" alors utiliser la configuration `WIFI_xxx` et `STATIC_IP` pour se connecter sur un reseau WiFi existant (execute `sta_connect()`).<br />Le timeout de connexion est de 40 secondes.
+ * SI `WIFI_MODE` = "AP" alors utiliser la configuration `AP_xxx` pour créer un réseau WiFI sur 192.168.4.1
+* Les LED du PICO s'allume  __seulement lorsque__ le réseau WiFi est configuré et actif
+* En cas d'erreur, la LED affiche un code d'erreur lumineux avec la LED.<br />Flashs rapide suivit d'un code (nombre de clignotement lent). Le code d'erreur est répété 3 fois
+ * 1 blink : erreur/timeout de connexion en mode Station.
+* Fin d'exécution de `boot.py`
 
-## MQTT based
-MQTT is not working the same as a WebServer. So it not build on a top of a WebServer.
+Lorsque `boot.py` achève sont exécution, MicroPython démarre le script `main.py`.
 
-As a results, it does'nt install the same way neither ;-) .
+Le script `main.py` est responsable de l'implementation du serveur WEB.
+* SI le mode WiFi est différent de "AP" ou "STA" ALORS `main.py` termine son exécution à l'aide d'un `sys.exit()`
+* Lorsque le Serveur WEB est en fonctionnement, celui-ci peut être arrêté en pressant la combinaison de touche CTRL+C (dans REPL)
 
-**Not done yet**
+## Surcharge du mode de démarrage
 
-# TODO list
-* Breakout the user buttons
-* WiFi Station setup configured via Access Point
-* Name the board (and store it)
-* Name the relais (and store it)
-* MQTT support
-* SSL support
-* User auth
-* Configure relay action: Toggle / trap-Timer
+Il est possible de forcer `WIFI_MODE` manuelklement durant le démarrage. Ce mode restera actif jusqu'au prochain redémarrage de la carte.
+
+![Override mode](docs/_static/override-mode.jpg)
+
+Si `None` est sélectionné alors la séquence de démarrage est interrompue et le serveur WEB n'est pas démarré. Par conséquent, la session REPL MicroPython est librement accessible via la connexion USB-Série.
+
+## Obtenir REPL via un UART série
+
+Lorsque le projet est en cours de fonctionnement, il peut être relativement difficile d'obtenir une session REPL via la connexion USB.
+
+En démarrant la carte en pressant le bouton IN1, le fichier de configuration réplique la session REPL sur UART(0) . Cette connexion matérielle est plus fiable.
+
+![Bouton IN1](docs/_static/repl-dupterm.jpg)
+
+L'UART(0) en 3.3V est disponible sur les deux premières broches du Pico.
+
+![UART(0) sur pico](/docs/_static/repl-dupterm-uart.jpg)
+
+L' UART(0) est également disponible sur le connecteur UEXT comme l'indique de graphique ci-dessous. Ce connecteur sera bien pratique pour y connecter un [câble console](https://shop.mchobby.be/product.php?id_product=144) ou un [FTDI-Friend](https://shop.mchobby.be/product.php?id_product=77).
+
+![Connecteur UEXT sur le Wifi-4-Relais](/docs/_static/UEXT-connector.jpg)
+
+
+# Client Réseau (mode Station)
+Lorsquele `WIFI_MODE` est configuré eb `"STA"` le Pico Wireless se connecte sur un réseau WiFi existant, comme n'importe quel ordinateur le fait. De la sorte, le Pico Wireless obtientdra une adresse IP dynamique via DHCP (IP qu'il faudra identifier) ou peut être configuré pour avoir une adresse IP statique (IP Fixe, plus facile à retrouver/mémoriser)
+
+Naviguer sur `http://<IP-of-Board>` affichera la page d'accueil avec les différentes options.
+
+![Index page](docs/_static/html-index.jpg)
+
+Depuis cette page, l'utilisateur peut suivre les différents liens pour découvrir les possibilités.
+
+# Détails techniques
+
+## Schéma
+
+![Schéma du wifi-4-relais](/docs/_static/schematic-r2.jpg)
+
+## Web App Workflow
+Naviguer sur le lien `http://<IP-of-Board>/status` permet d'affichier l'état des relais et permet à l'utilisateur de changer l'état d'un relais.
+
+![html interface](docs/_static/html-interface.jpg)
+
+Les boutons ON/OFF son toujours accessibles (puisque l'état physique du relais pourrait avoir changer par une action utilisateur sur l'un des boutons INx).
+
+En pressant l'un des boutons de la page WEB, la commande est envoyée vers le serveur WEB qui génère une nouvelle page de statu. Une petite animation CSS est affichée pendant que le le serveur WEB traite la requête (ce qui peut prendre plus de 10 secondes).
+
+![html interface](docs/_static/html-animation.jpg)
+
+L'animation évite de multiples appels sur le serveur WEB pendant qu'il exécute le requête en cours.
+
+## API REST
+
+L'API REST est idéale lorsque vous voulez utiliser le projet ocomme objet distant.
+
+![REST API MODEL](docs/_static/rest-api.jpg)
+
+Voici les differentes URL disponible sur l'API REST.
+
+| URI                         | Description                                              |
+|-----------------------------|----------------------------------------------------------|
+| /api/status                 | Statut de tous les relais sous forme d'une structure JSON.          |
+| /api/status/<#relay>        | Statut du relais #relay (1..N) au format JSON.                      |
+| /api/relay/<#relay>/<value> | Changer l'état du relais #relay (1..N) vers la valeur (1=on, 0=off) |
+| /api/relay/all/<value>      | Changer l'état de tous les relais vers la valeur (1=on, 0=off)      |
+
+L'exemple suivant permet d'obtenir l'état de de tous les relais. Le dictionnaire contient l'identication du relais (#relay) et son état actuel (1:on, 0:off).
+
+![Etat des relais sur l'API REST](docs/_static/rest-status.jpg)
+
+Ce qui correspond à la structure JSON suivante:
+
+`{"1": 0, "4": 0, "3": 0, "2": 1}`
+
+Pour une requête d'état concernant un seul relais, le dictionnaire en réponse est réduit à une seule entrée.
+
+![REST API Relay status](docs/_static/rest-status-single.jpg)
+
+Ce qui produit la structure JSON suivante (le relais 2 est actif/ON):
+
+`{"2": 1}`
+
+
+## Implémentation MQTT
+
+**Pas encore fait**
+
+# Comment installer
+
+## Connexion WiFi
+
+L'implémentation initiale ne permet de configurer la connexion WiFi via une interface WEB.
+
+Comme déjà expliqué précedemment, le WiFi doit être configuré en éditant et copiant les fichiers:
+* [examples/wifi_cfg.sample](examples/wifi_cfg.sample) ==> `wifi_cfg.py`
+* [examples/boot.timeout.sample](examples/boot.timeout.sample)  ==> `boot.py`
+
+## Elements WEB (HTML, JSON, REST)
+L'installation est relativemennt simple.
+1. Créer un répertoire `lib` sur votre carte.
+2. Copiez les fichiers `lib/*.py` dans le répertoire `lib` de votre carte.
+3. Créer le répertoire `www` sur la carte.
+4. Copier les fichiers `www/*.*` dans le répertoire `www` de la carte.
+5. Copiez le fichier `main.py` sur la carte. `main.py` sera automatiquement exécuté lors du prochain redémarrage de la carte (ou de MicroPython).
+
+Remarque: si vous désirez un meilleur contrôle de votre carte durant la phase de test, vous pouvez renommer le fichier `main.py` vers `test.py` avant de le copier sur votre carte. Ensuite, le serveur WEB peut être démarrer à la demande en saissisant la commande `import test` depuis la session REPL.
+
+## Installation MQTT
+MQTT ne fonctionne pas de la même façon qu'un serveur WEB. MQTT n'est donc pas une surcouche sur un serveur WEB.
+
+Par conséquent, cela ne s'installe pas de la même façon non plus ;-) .
+
+**Pas encore fait**
+
+# TODO
+* Breakout des bouton utilisateurs
+* Configuration du mode Station depuis le mode point-d'accès
+* Nommer la carte (et stocker l'information)
+* Nommer les relais (et stocker l'information)
+* Support MQTT
+* Support SSL
+* Authentification utilisateur
+* Configurer l'action relais: Toggle / trap-Timer
 
 # Ressources
-* [MicroWebSrv](https://github.com/jczic/MicroWebSrv) - Micro Web Server for MicroPython
-* [microdot](https://github.com/miguelgrinberg/microdot) - minimalistic web framework for microcontroler (MicroPython) inspired by Flask (also use AsyncIO)
+* [MicroWebSrv](https://github.com/jczic/MicroWebSrv) - Micro Web Server pour MicroPython
+* [microdot](https://github.com/miguelgrinberg/microdot) - framwork web minimaliste pour microcontrôleur (MicroPython) inspiré de Flask (utilise également AsyncIO)
 
-# Shopping list
+# Liste d'achat
 * [WiFi-4-Relais kits](https://shop.mchobby.be/product.php?id_product=2473)
 * [Raspberry-Pico W](https://shop.mchobby.be/fr/pico-rp2040/2434-pico-w-wireless-rp2040-2-coeurs-wifi-bluetooth-3232100024342.html).
